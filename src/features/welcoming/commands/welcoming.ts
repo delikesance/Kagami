@@ -1,6 +1,6 @@
 import { ChannelType, GuildMember, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { Command } from "../../../types/command";
-import db from "../../../lib/db";
+import type { Command } from "../../../shared/types/command";
+import db from "../../../shared/lib/db";
 
 export const welcomingCommand: Command = {
   data: new SlashCommandBuilder()

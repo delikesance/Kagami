@@ -1,0 +1,99 @@
+Configuring shell
+Configuring shell in 3.87s
+Loading tasks
+Loading tasks in 2.95ms
+Running tasks     devenv:enterShell
+
+Running tasks
+Running           devenv:files:cleanup
+Succeeded         devenv:files:cleanup (42.19ms)
+Running           devenv:enterShell
+Succeeded         devenv:enterShell (10.38ms)
+Running           devenv:enterTest
+No command        devenv:enterTest
+Running tasks in 52.9ms
+1 Skipped, 2 Succeeded
+Running processes
+Loading tasks
+Loading tasks in 3.18ms
+Running processes in 51.9ms
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+bot: process exit: restart rate limit exceeded
+process exit: restart rate limit exceeded
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2
+Error: 
+   0: Access token is not in a valid format: Doesn't contain a decryption key
+   1: Doesn't contain a decryption key
+
+Location:
+   crates/bws/src/main.rs:69
+
+Backtrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.
+Run with RUST_BACKTRACE=full to include source snippets.
+error: a value is required for '--project-id <PROJECT_ID>' but none was supplied
+
+For more information, try '--help'.
+make: *** [Makefile:12: dev] Error 2

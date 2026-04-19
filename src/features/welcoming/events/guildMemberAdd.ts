@@ -1,5 +1,5 @@
 import { AttachmentBuilder, type GuildMember, type SendableChannels } from "discord.js";
-import { KagamiEmbedBuilder } from "../../../lib/embed";
+import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
 import { generateWelcomeImage } from "../lib/canvas";
 
 const WELCOME_MESSAGES = [

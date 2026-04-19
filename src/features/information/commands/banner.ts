@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { Command } from "../types/command";
-import { KagamiEmbedBuilder } from "../lib/embed";
+import type { Command } from "../../../shared/types/command";
+import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
 
 export const bannerCommand: Command = {
   data: new SlashCommandBuilder()

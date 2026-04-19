@@ -1,12 +1,12 @@
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags, REST, Routes, type ClientOptions, type SendableChannels } from "discord.js";
-import type { Command } from "./types/command";
-import { env } from "./lib/env";
-import db from "./lib/db";
+import type { Command } from "./shared/types/command";
+import { env } from "./shared/lib/env";
+import db from "./shared/lib/db";
 
-import { pingCommand } from "./commands/ping";
-import { avatarCommand } from "./commands/avatar";
-import { bannerCommand } from "./commands/banner";
-import { clearCommand } from "./commands/clear";
+import { pingCommand } from "./features/utility/commands/ping";
+import { avatarCommand } from "./features/information/commands/avatar";
+import { bannerCommand } from "./features/information/commands/banner";
+import { clearCommand } from "./features/moderation/commands/clear";
 import { welcomingCommand } from "./features/welcoming/commands/welcoming";
 import { sendWelcomeMessage } from "./features/welcoming/events/guildMemberAdd";
 
