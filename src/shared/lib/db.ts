@@ -6,7 +6,9 @@ const db = new Database("database.sqlite", { create: true });
 db.query(`
   CREATE TABLE IF NOT EXISTS guild_configs (
     guild_id TEXT PRIMARY KEY,
-    welcome_channel_id TEXT
+    welcome_channel_id TEXT,
+    log_channel_id TEXT,
+    log_events TEXT DEFAULT '[]'
   )
 `).run();
 

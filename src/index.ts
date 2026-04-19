@@ -8,7 +8,9 @@ import { avatarCommand } from "./features/information/commands/avatar";
 import { bannerCommand } from "./features/information/commands/banner";
 import { clearCommand } from "./features/moderation/commands/clear";
 import { welcomingCommand } from "./features/welcoming/commands/welcoming";
+import { configCommand } from "./features/logging/commands/config";
 import { sendWelcomeMessage } from "./features/welcoming/events/guildMemberAdd";
+import { LogEvent, createLogEmbed, sendLog } from "./features/logging/lib/logger";
 
 class Bot extends Client {
   public commands = new Collection<string, Command>()
@@ -23,11 +25,17 @@ class Bot extends Client {
     this.commands.set(bannerCommand.data.name, bannerCommand)
     this.commands.set(clearCommand.data.name, clearCommand)
     this.commands.set(welcomingCommand.data.name, welcomingCommand)
+    this.commands.set(configCommand.data.name, configCommand)
   }
 }
 
 const bot = new Bot({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers]
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent
+  ]
 })
 
 await bot.loadCommands()
@@ -37,12 +45,13 @@ bot.once(Events.ClientReady, async (client) => {
 })
 
 bot.on(Events.GuildMemberAdd, async (member) => {
-  const query = db.query("SELECT welcome_channel_id FROM guild_configs WHERE guild_id = ?");
-  const result = query.get(member.guild.id) as { welcome_channel_id: string } | null;
+  // Welcoming
+  const welcomeQuery = db.query("SELECT welcome_channel_id FROM guild_configs WHERE guild_id = ?");
+  const welcomeResult = welcomeQuery.get(member.guild.id) as { welcome_channel_id: string } | null;
 
-  if (result?.welcome_channel_id) {
+  if (welcomeResult?.welcome_channel_id) {
     try {
-      const channel = await member.guild.channels.fetch(result.welcome_channel_id);
+      const channel = await member.guild.channels.fetch(welcomeResult.welcome_channel_id);
       if (channel && channel.isSendable()) {
         await sendWelcomeMessage(member, channel as SendableChannels);
       }
@@ -50,6 +59,54 @@ bot.on(Events.GuildMemberAdd, async (member) => {
       console.error(`[ERROR] Failed to fetch welcome channel for guild ${member.guild.id}:`, error);
     }
   }
+
+  // Logging
+  const embed = createLogEmbed(
+    "Member Joined",
+    `${member} (${member.user.tag}) has joined the server.`,
+    0x2ecc71 // Green
+  ).setThumbnail(member.user.displayAvatarURL());
+
+  await sendLog(member.guild.id, LogEvent.MEMBER_JOIN, embed, bot);
+});
+
+bot.on(Events.GuildMemberRemove, async (member) => {
+  const embed = createLogEmbed(
+    "Member Left",
+    `${member.user.tag} has left the server.`,
+    0xe74c3c // Red
+  ).setThumbnail(member.user.displayAvatarURL());
+
+  await sendLog(member.guild.id, LogEvent.MEMBER_LEAVE, embed, bot);
+});
+
+bot.on(Events.MessageDelete, async (message) => {
+  if (message.partial || !message.guildId || message.author?.bot) return;
+
+  const embed = createLogEmbed(
+    "Message Deleted",
+    `**Author:** ${message.author} (${message.author.tag})\n**Channel:** ${message.channel}\n\n**Content:**\n${message.content || "*No content*"}`,
+    0xe74c3c // Red
+  );
+
+  await sendLog(message.guildId, LogEvent.MESSAGE_DELETE, embed, bot);
+});
+
+bot.on(Events.MessageUpdate, async (oldMessage, newMessage) => {
+  if (oldMessage.partial || newMessage.partial || !oldMessage.guildId || oldMessage.author?.bot) return;
+  if (oldMessage.content === newMessage.content) return;
+
+  const embed = createLogEmbed(
+    "Message Updated",
+    `**Author:** ${oldMessage.author} (${oldMessage.author.tag})\n**Channel:** ${oldMessage.channel}\n[Jump to message](${newMessage.url})`,
+    0x3498db // Blue
+  )
+    .addFields(
+      { name: "Old Content", value: oldMessage.content || "*No content*" },
+      { name: "New Content", value: newMessage.content || "*No content*" }
+    );
+
+  await sendLog(oldMessage.guildId, LogEvent.MESSAGE_UPDATE, embed, bot);
 });
 
 

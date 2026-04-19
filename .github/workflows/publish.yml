@@ -1,0 +1,63 @@
+name: Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Install devenv
+        uses: cachix/devenv-action@v1
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push container
+        run: |
+          # Lowercase the repository name for GHCR
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          
+          # Determine the tag
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            TAG="${{ github.ref_name }}"
+          else
+            TAG="latest"
+          fi
+          
+          IMAGE_URI="${{ env.REGISTRY }}/${REPO_LOWER}:${TAG}"
+          echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
+          echo "Pushing to ${IMAGE_URI}..."
+          
+          # Use devenv to copy the container to the registry
+          # This command builds the container and pushes it using skopeo
+          devenv container copy kagami --registry "docker://${IMAGE_URI}"
+
+      - name: Summary
+        run: |
+          echo "### Image Published! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "Image: \`${{ env.IMAGE_URI }}\`" >> $GITHUB_STEP_SUMMARY
