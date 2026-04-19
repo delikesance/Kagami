@@ -60,8 +60,13 @@ jobs:
           echo "Pushing to ${IMAGE_URI}..."
           
           # Use devenv to copy the container to the registry
-          # This command builds the container and pushes it using skopeo
-          devenv container copy kagami --registry "docker://${IMAGE_URI}"
+          # We use the owner part of the repository as the registry path
+          # and let devenv append the container name and version.
+          # The name and version are overridden via the --option flag to ensure they match the repository.
+          devenv container copy kagami \
+            --registry "docker://${{ env.REGISTRY }}/${REPO_LOWER%/*}/" \
+            --option "containers.kagami.name:string" "${REPO_LOWER##*/}" \
+            --option "containers.kagami.version:string" "${TAG}"
 
       - name: Summary
         run: |
