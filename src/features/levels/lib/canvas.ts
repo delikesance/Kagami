@@ -13,6 +13,16 @@ export async function generateRankCard(user: User, xp: number, level: number) {
   ctx.fillStyle = "#282828";
   ctx.fillRect(0, 0, 900, 250);
 
+  // Subtle Grid
+  ctx.strokeStyle = "rgba(235, 219, 178, 0.02)";
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 900; i += 40) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 250); ctx.stroke();
+  }
+  for (let i = 0; i < 250; i += 40) {
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(900, i); ctx.stroke();
+  }
+
   // Avatar with Gray border
   const avatarSize = 140;
   const avX = 50;
@@ -76,6 +86,16 @@ export async function generateLeaderboardImage(guildName: string, topUsers: { us
   // Background (bg0)
   ctx.fillStyle = "#282828";
   ctx.fillRect(0, 0, 800, 550);
+
+  // Subtle Grid
+  ctx.strokeStyle = "rgba(235, 219, 178, 0.02)";
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 800; i += 40) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 550); ctx.stroke();
+  }
+  for (let i = 0; i < 550; i += 40) {
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(800, i); ctx.stroke();
+  }
 
   // Header (fg)
   ctx.fillStyle = "#ebdbb2";

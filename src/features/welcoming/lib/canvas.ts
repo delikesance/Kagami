@@ -9,6 +9,16 @@ export async function generateWelcomeImage(member: GuildMember) {
   ctx.fillStyle = "#282828";
   ctx.fillRect(0, 0, 1024, 450);
 
+  // Subtle Grid
+  ctx.strokeStyle = "rgba(235, 219, 178, 0.02)";
+  ctx.lineWidth = 1;
+  for (let i = 0; i < 1024; i += 40) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 450); ctx.stroke();
+  }
+  for (let i = 0; i < 450; i += 40) {
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(1024, i); ctx.stroke();
+  }
+
   // 2. Subtle Border (bg1)
   ctx.strokeStyle = "#3c3836";
   ctx.lineWidth = 20;
