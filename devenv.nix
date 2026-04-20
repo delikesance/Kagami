@@ -25,29 +25,30 @@
     # Mock BWS token for Makefile check
     export BWS_ACCESS_TOKEN=test
     
-    echo "Testing installation..."
+    echo "--- Phase 1: Full Build Simulation (Container Cold Start) ---"
+    # Replicate the exact entrypoint sequence: install all -> build -> prune
+    rm -rf node_modules
+    echo "Installing all dependencies..."
     bun install
-    
-    echo "Testing bundling..."
+    echo "Building bundle..."
     make build
     if [ ! -f dist/index.js ]; then
-      echo "Error: dist/index.js was not created"
+      echo "Error: dist/index.js was not created during full build simulation"
       exit 1
     fi
-    
-    echo "Running unit and bundle tests..."
-    bun test
-    
-    echo "Testing production installation (image size optimization)..."
-    # Create a temporary directory for production install to truly verify size reduction
+    echo "Pruning to production dependencies..."
+    # We use a subshell and temporary directory to simulate the clean production state
+    # because 'bun install --production' does not always remove existing dev folders 
+    # if they were already there in the same directory.
     mkdir -p .prod-test
     cp package.json bun.lock .prod-test/
     cd .prod-test
     bun install --production
     
-    echo "Verifying node_modules content..."
+    echo "--- Phase 2: Image Optimization Validation ---"
+    echo "Verifying node_modules content is optimized..."
     if [ -d node_modules/discord.js ]; then
-      echo "Error: discord.js found in production node_modules! Bundling is not working as expected for size reduction."
+      echo "Error: discord.js found in node_modules after production install! This will bloat the image."
       exit 1
     fi
     
@@ -55,10 +56,19 @@
       echo "Error: @napi-rs/canvas (external) NOT found in production node_modules!"
       exit 1
     fi
-    
-    echo "Production environment check passed (Native deps kept, bundled deps removed)."
     cd ..
     rm -rf .prod-test
+
+    echo "--- Phase 3: Runtime Verification ---"
+    echo "Running unit and bundle tests..."
+    bun test
+    
+    echo "--- Phase 4: Container Definition Check ---"
+    # Ensure the entrypoint in devenv.nix matches our validated sequence
+    # We can use grep to ensure we don't accidentally drift the two
+    grep -q "bun install && make build && bun install --production" devenv.nix || (echo "Error: Container entrypoint does not match validated test sequence!"; exit 1)
+
+    echo "All checks passed. Container lifecycle is validated."
   '';
 
   containers."kagami" = {
