@@ -1,4 +1,4 @@
-import { type SendableChannels, type TextChannel, type Client, EmbedBuilder } from "discord.js";
+import { type SendableChannels, type Client, EmbedBuilder, ChannelType } from "discord.js";
 import db from "../../../shared/lib/db";
 import { embedConfig, KagamiEmbedBuilder } from "../../../shared/lib/embed";
 import { t } from "../../../shared/lib/i18n";
@@ -52,4 +52,20 @@ export function createLogEmbed(title: string, description: string, color: number
     .setTitle(title)
     .setDescription(description)
     .setColor(color);
+}
+
+export function getChannelTypeName(type: ChannelType, lng: string): string {
+  const types: Record<number, string> = {
+    [ChannelType.GuildText]: lng === 'fr' ? 'Texte' : 'Text',
+    [ChannelType.GuildVoice]: lng === 'fr' ? 'Vocal' : 'Voice',
+    [ChannelType.GuildCategory]: lng === 'fr' ? 'Catégorie' : 'Category',
+    [ChannelType.GuildAnnouncement]: lng === 'fr' ? 'Annonce' : 'Announcement',
+    [ChannelType.AnnouncementThread]: lng === 'fr' ? 'Fil d\'annonce' : 'Announcement Thread',
+    [ChannelType.PublicThread]: lng === 'fr' ? 'Fil public' : 'Public Thread',
+    [ChannelType.PrivateThread]: lng === 'fr' ? 'Fil privé' : 'Private Thread',
+    [ChannelType.GuildStageVoice]: lng === 'fr' ? 'Scène' : 'Stage',
+    [ChannelType.GuildForum]: 'Forum',
+  };
+
+  return types[type] || `Unknown (${type})`;
 }

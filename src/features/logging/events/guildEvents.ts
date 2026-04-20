@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import type { Event } from "../../../shared/types/event";
-import { LogEvent, createLogEmbed, sendLog, getGuildLanguage } from "../lib/logger";
+import { LogEvent, createLogEmbed, sendLog, getGuildLanguage, getChannelTypeName } from "../lib/logger";
 import { t } from "../../../shared/lib/i18n";
 
 export const roleCreateEvent: Event<Events.GuildRoleCreate> = {
@@ -61,7 +61,7 @@ export const channelCreateEvent: Event<Events.ChannelCreate> = {
         lng,
         channel: channel.toString(),
         id: channel.id,
-        type: channel.type.toString()
+        type: getChannelTypeName(channel.type, lng)
       }),
       0x2ecc71 // Green
     );
@@ -80,7 +80,7 @@ export const channelDeleteEvent: Event<Events.ChannelDelete> = {
         lng,
         channel: "name" in channel ? channel.name : channel.id,
         id: channel.id,
-        type: channel.type.toString()
+        type: getChannelTypeName(channel.type, lng)
       }),
       0xe74c3c // Red
     );
