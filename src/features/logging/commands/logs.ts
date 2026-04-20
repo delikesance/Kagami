@@ -41,132 +41,125 @@ export const logsCommand: Command = {
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addSubcommand(subcommand =>
       subcommand
-        .setName("configure")
-        .setDescription("Configure logging settings")
+        .setName("channel")
+        .setDescription("Set the channel for logs")
         .addChannelOption(option =>
           option
-            .setName("channel")
+            .setName("target")
             .setDescription("The channel to send logs to")
+            .setRequired(true)
             .addChannelTypes(ChannelType.GuildText)
         )
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName("language")
+        .setDescription("Set the language for logs")
         .addStringOption(option =>
           option
-            .setName("language")
-            .setDescription("The language for logs (en/fr)")
+            .setName("value")
+            .setDescription("The language (en/fr)")
+            .setRequired(true)
             .addChoices(
               { name: "English", value: "en" },
               { name: "Français", value: "fr" }
             )
         )
-        .addBooleanOption(option =>
-          option
-            .setName("events")
-            .setDescription("Open the multi-select menu to configure log events")
-        )
+    )
+    .addSubcommand(subcommand =>
+      subcommand
+        .setName("events")
+        .setDescription("Configure which events to log")
     ),
+
   async execute(interaction: ChatInputCommandInteraction, locale: string) {
     const guildId = interaction.guildId!;
-    const channel = interaction.options.getChannel("channel");
-    const language = interaction.options.getString("language");
-    const showEvents = interaction.options.getBoolean("events");
+    const subcommand = interaction.options.getSubcommand();
 
-    const responses: string[] = [];
-
-    if (channel) {
+    if (subcommand === "channel") {
+      const channel = interaction.options.getChannel("target", true);
       db.prepare(
         `INSERT INTO guild_configs (guild_id, log_channel_id)
          VALUES (?, ?)
          ON CONFLICT(guild_id) DO UPDATE SET log_channel_id = excluded.log_channel_id`
       ).run(guildId, channel.id);
-      responses.push(t("commands.logs.channel_set", locale, { channel: channel.toString() }));
+
+      await interaction.reply({
+        content: t("commands.logs.channel_set", locale, { channel: channel.toString() }),
+        flags: MessageFlags.Ephemeral
+      });
+      return;
     }
 
-    if (language) {
+    if (subcommand === "language") {
+      const language = interaction.options.getString("value", true);
       db.prepare(
         `INSERT INTO guild_configs (guild_id, language)
          VALUES (?, ?)
          ON CONFLICT(guild_id) DO UPDATE SET language = excluded.language`
       ).run(guildId, language);
-      responses.push(t("commands.logs.lang_set", locale, { lang: language === 'fr' ? 'Français' : 'English' }));
-    }
 
-    // Determine if we should show the menu:
-    // 1. Explicitly requested via 'events: true'
-    // 2. Nothing else was provided (default behavior)
-    const shouldShowMenu = showEvents === true || (!channel && !language && showEvents !== false);
-
-    if (!shouldShowMenu) {
-      if (responses.length > 0) {
-        await interaction.reply({
-          content: responses.join("\n"),
-          flags: MessageFlags.Ephemeral
-        });
-      } else {
-        // This case handles 'events: false' with no other options
-        await interaction.reply({
-          content: t("common.success", locale),
-          flags: MessageFlags.Ephemeral
-        });
-      }
+      await interaction.reply({
+        content: t("commands.logs.lang_set", locale, { lang: language === 'fr' ? 'Français' : 'English' }),
+        flags: MessageFlags.Ephemeral
+      });
       return;
     }
 
-    const query = db.query("SELECT log_events FROM guild_configs WHERE guild_id = ?");
-    const result = query.get(guildId) as { log_events: string } | null;
-    const enabledEvents: string[] = result ? JSON.parse(result.log_events) : [];
+    if (subcommand === "events") {
+      const query = db.query("SELECT log_events FROM guild_configs WHERE guild_id = ?");
+      const result = query.get(guildId) as { log_events: string } | null;
+      const enabledEvents: string[] = result ? JSON.parse(result.log_events) : [];
 
-    const selectMenu = new StringSelectMenuBuilder()
-      .setCustomId("logs_event_select")
-      .setPlaceholder(t("commands.logs.select_events", locale))
-      .setMinValues(0)
-      .setMaxValues(Object.keys(LogEvent).length)
-      .addOptions(
-        Object.entries(LogEvent).map(([_, value]) =>
-          new StringSelectMenuOptionBuilder()
-            .setLabel(logEventLabels[value as LogEvent] || value)
-            .setValue(value)
-            .setDefault(enabledEvents.includes(value))
-        )
-      );
+      const selectMenu = new StringSelectMenuBuilder()
+        .setCustomId("logs_event_select")
+        .setPlaceholder(t("commands.logs.select_events", locale))
+        .setMinValues(0)
+        .setMaxValues(Object.keys(LogEvent).length)
+        .addOptions(
+          Object.entries(LogEvent).map(([_, value]) =>
+            new StringSelectMenuOptionBuilder()
+              .setLabel(logEventLabels[value as LogEvent] || value)
+              .setValue(value)
+              .setDefault(enabledEvents.includes(value))
+          )
+        );
 
-    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
+      const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
-    const content = responses.length > 0 
-      ? `${responses.join("\n")}\n\n${t("commands.logs.select_events", locale)}`
-      : t("commands.logs.select_events", locale);
-
-    const response = await interaction.reply({
-      content,
-      components: [row],
-      flags: MessageFlags.Ephemeral
-    });
-
-    const collector = response.createMessageComponentCollector({
-      componentType: ComponentType.StringSelect,
-      time: 60000
-    });
-
-    collector.on("collect", async i => {
-      const selectedEvents = i.values;
-
-      db.prepare(
-        `INSERT INTO guild_configs (guild_id, log_events)
-         VALUES (?, ?)
-         ON CONFLICT(guild_id) DO UPDATE SET log_events = excluded.log_events`
-      ).run(guildId, JSON.stringify(selectedEvents));
-
-      await i.reply({
-        content: t("commands.logs.updated", locale, {
-          events: selectedEvents.length > 0 
-            ? selectedEvents.map(e => `\`${e}\``).join(", ") 
-            : t("commands.logs.none", locale)
-        }),
+      const response = await interaction.reply({
+        content: t("commands.logs.select_events", locale),
+        components: [row],
         flags: MessageFlags.Ephemeral
       });
-    });
 
-    collector.on("end", () => {
-      interaction.editReply({ components: [] }).catch(() => { });
-    });
+      const collector = response.createMessageComponentCollector({
+        componentType: ComponentType.StringSelect,
+        time: 60000
+      });
+
+      collector.on("collect", async i => {
+        const selectedEvents = i.values;
+
+        db.prepare(
+          `INSERT INTO guild_configs (guild_id, log_events)
+           VALUES (?, ?)
+           ON CONFLICT(guild_id) DO UPDATE SET log_events = excluded.log_events`
+        ).run(guildId, JSON.stringify(selectedEvents));
+
+        await i.reply({
+          content: t("commands.logs.updated", locale, {
+            events: selectedEvents.length > 0 
+              ? selectedEvents.map(e => `\`${e}\``).join(", ") 
+              : t("commands.logs.none", locale)
+          }),
+          flags: MessageFlags.Ephemeral
+        });
+      });
+
+      collector.on("end", () => {
+        interaction.editReply({ components: [] }).catch(() => { });
+      });
+    }
   }
 };
