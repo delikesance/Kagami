@@ -18,11 +18,13 @@ export const reflectionVoiceEvent: Event<Events.VoiceStateUpdate> = {
       const member = newState.member;
       if (!member) return;
 
+      const parentId = config.category_id || newState.channel?.parentId;
+
       try {
         const newChannel = await newState.guild.channels.create({
           name: `Reflet de ${member.displayName}`,
           type: ChannelType.GuildVoice,
-          parent: config.category_id,
+          parent: parentId || undefined,
           permissionOverwrites: [
             {
               id: member.id,
