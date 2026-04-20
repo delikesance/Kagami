@@ -17,7 +17,7 @@ export class KagamiEmbedBuilder extends EmbedBuilder {
     else if (level === "success") this.setColor(colors.success);
     else this.setColor(colors.info);
 
-    this.setFooter({ text: "ＫＡＧＡＭＩ" })
+    this.setFooter({ text: "ＫＡＧＡＭＩ | Made with ❤️ by Delikesance" })
   }
   static error(message: string) {
     return new this("error")
