@@ -41,6 +41,14 @@
       "title": "Banner of {user}",
       "no_banner": "{user} does not have a banner"
     },
+    "profile": {
+      "title": "Profile of {user}",
+      "id": "ID",
+      "created_at": "Created at",
+      "joined_at": "Joined at",
+      "roles": "Roles ({count})",
+      "no_roles": "No roles"
+    },
     "logs": {
       "channel_set": "Log channel has been set to {channel}.",
       "lang_set": "Log language has been set to **{lang}**.",

@@ -2,6 +2,7 @@ import { pingCommand } from "./features/utility/commands/ping";
 import { helpCommand } from "./features/utility/commands/help";
 import { avatarCommand } from "./features/information/commands/avatar";
 import { bannerCommand } from "./features/information/commands/banner";
+import { profileCommand } from "./features/information/commands/profile";
 import { clearCommand } from "./features/moderation/commands/clear";
 import { warnCommand } from "./features/moderation/commands/warn";
 import { warningsCommand } from "./features/moderation/commands/warnings";
@@ -16,6 +17,7 @@ export const commands = [
   helpCommand,
   avatarCommand,
   bannerCommand,
+  profileCommand,
   clearCommand,
   warnCommand,
   warningsCommand,

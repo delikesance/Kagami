@@ -6,10 +6,13 @@ endif
 # Get Project ID dynamically
 PROJECT_ID := $(shell bws project list | jq -r '.[] | select(.name == "kagami") | .id')
 
-.PHONY: dev start
+.PHONY: dev start build
 
 dev:
 	bws run --project-id $(PROJECT_ID) -- bun run --watch src/index.ts
 
+build:
+	bun run build
+
 start:
-	bws run --project-id $(PROJECT_ID) -- bun run src/index.ts
+	bws run --project-id $(PROJECT_ID) -- bun run dist/index.js

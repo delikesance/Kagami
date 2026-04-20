@@ -41,6 +41,14 @@
       "title": "Bannière de {user}",
       "no_banner": "{user} n'a pas de bannière"
     },
+    "profile": {
+      "title": "Profil de {user}",
+      "id": "ID",
+      "created_at": "Créé le",
+      "joined_at": "Rejoint le",
+      "roles": "Rôles ({count})",
+      "no_roles": "Aucun rôle"
+    },
     "logs": {
       "channel_set": "Le salon de logs a été défini sur {channel}.",
       "lang_set": "La langue des logs a été définie sur **{lang}**.",
