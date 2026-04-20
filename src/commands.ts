@@ -13,6 +13,7 @@ import { automodCommand } from "./features/moderation/commands/automod";
 import { verifyCommand } from "./features/verification/commands/verify";
 import { welcomingCommand } from "./features/welcoming/commands/welcoming";
 import { logsCommand } from "./features/logging/commands/logs";
+import { reflectionCommand } from "./features/reflections/commands/reflection";
 
 export const commands = [
   pingCommand,
@@ -30,4 +31,5 @@ export const commands = [
   verifyCommand,
   welcomingCommand,
   logsCommand,
+  reflectionCommand,
 ];

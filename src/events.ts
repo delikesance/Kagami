@@ -26,6 +26,7 @@ import {
 import { verificationInteractionEvent } from "./features/verification/events/verificationInteractions";
 import { verificationMessageEvent } from "./features/verification/events/verificationMessage";
 import { xpMessageEvent } from "./features/levels/events/xpEvents";
+import { reflectionVoiceEvent } from "./features/reflections/events/voiceStateUpdate";
 
 export const events = [
   readyEvent,
@@ -48,4 +49,5 @@ export const events = [
   verificationInteractionEvent,
   verificationMessageEvent,
   xpMessageEvent,
+  reflectionVoiceEvent,
 ];

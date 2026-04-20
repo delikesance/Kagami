@@ -79,6 +79,22 @@ db.query(`
   )
 `).run();
 
+db.query(`
+  CREATE TABLE IF NOT EXISTS reflection_configs (
+    guild_id TEXT PRIMARY KEY,
+    generator_channel_id TEXT NOT NULL,
+    category_id TEXT
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS active_reflections (
+    channel_id TEXT PRIMARY KEY,
+    guild_id TEXT NOT NULL,
+    owner_id TEXT NOT NULL
+  )
+`).run();
+
 // Add attempts column if it doesn't exist
 try {
   db.query("ALTER TABLE pending_verifications ADD COLUMN attempts INTEGER DEFAULT 0").run();
