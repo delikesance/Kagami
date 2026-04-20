@@ -84,6 +84,15 @@ export const logsCommand: Command = {
       responses.push(t("commands.logs.lang_set", locale, { lang: language === 'fr' ? 'Français' : 'English' }));
     }
 
+    // If any options were provided, just send the confirmation and don't show the menu
+    if (responses.length > 0) {
+      await interaction.reply({
+        content: responses.join("\n"),
+        flags: MessageFlags.Ephemeral
+      });
+      return;
+    }
+
     const query = db.query("SELECT log_events FROM guild_configs WHERE guild_id = ?");
     const result = query.get(guildId) as { log_events: string } | null;
     const enabledEvents: string[] = result ? JSON.parse(result.log_events) : [];
@@ -105,7 +114,7 @@ export const logsCommand: Command = {
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
     const response = await interaction.reply({
-      content: responses.length > 0 ? responses.join("\n") : t("commands.logs.select_events", locale),
+      content: t("commands.logs.select_events", locale),
       components: [row],
       flags: MessageFlags.Ephemeral
     });
