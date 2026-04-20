@@ -17,7 +17,7 @@ export async function generateWelcomeImage(member: GuildMember) {
   // 3. Avatar with sharp circular crop
   const avatarSize = 200;
   const x = (canvas.width - avatarSize) / 2;
-  const y = 50; // Moved up from 80
+  const y = 65; // Adjusted from 50
 
   ctx.save();
   ctx.beginPath();
@@ -42,12 +42,12 @@ export async function generateWelcomeImage(member: GuildMember) {
   // Welcome Text (fg / cream)
   ctx.fillStyle = "#ebdbb2";
   ctx.font = "bold 60px sans-serif";
-  ctx.fillText("BIENVENUE", canvas.width / 2, 360); // Moved down from 340
+  ctx.fillText("BIENVENUE", canvas.width / 2, 350); // Adjusted from 360
 
   // Username (Aqua)
   ctx.fillStyle = "#8ec07c";
   ctx.font = "40px sans-serif";
-  ctx.fillText(member.user.username, canvas.width / 2, 410); // Moved down from 395
+  ctx.fillText(member.user.username, canvas.width / 2, 400); // Adjusted from 410
 
   return canvas.toBuffer("image/png");
 }
