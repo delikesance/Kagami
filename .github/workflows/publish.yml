@@ -10,6 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  NIXPKGS_ALLOW_UNFREE: 1
 
 jobs:
   publish:
@@ -26,15 +27,11 @@ jobs:
         uses: cachix/install-nix-action@v31
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-          nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Install Cachix
         uses: cachix/cachix-action@v16
         with:
           name: devenv
-
-      - name: Install devenv
-        run: nix profile install nixpkgs#devenv
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -59,11 +56,8 @@ jobs:
           echo "IMAGE_URI=${IMAGE_URI}" >> $GITHUB_ENV
           echo "Pushing to ${IMAGE_URI}..."
           
-          # Use devenv to copy the container to the registry
-          # We use the owner part of the repository as the registry path
-          # and let devenv append the container name and version.
-          # The name and version are overridden via the --option flag to ensure they match the repository.
-          devenv container copy kagami \
+          # Use nix run to execute the latest devenv directly
+          nix run github:cachix/devenv -- container copy kagami \
             --registry "docker://${{ env.REGISTRY }}/${REPO_LOWER%/*}/" \
             --option "containers.kagami.name:string" "${REPO_LOWER##*/}" \
             --option "containers.kagami.version:string" "${TAG}"
