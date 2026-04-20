@@ -63,7 +63,7 @@
 
   containers."kagami" = {
     name = "kagami";
-    entrypoint = [ "bash" "-c" "export PATH=${config.devenv.profile}/bin:$PATH && export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt && cd /env/*-source && bun install --production && make build && exec make start" ];
+    entrypoint = [ "bash" "-c" "export PATH=${config.devenv.profile}/bin:$PATH && export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt && cd /env/*-source && bun install && make build && bun install --production && exec make start" ];
     copyToRoot = [
       pkgs.cacert
       (lib.cleanSource ./.)
