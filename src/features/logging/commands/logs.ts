@@ -58,11 +58,17 @@ export const logsCommand: Command = {
               { name: "Français", value: "fr" }
             )
         )
+        .addBooleanOption(option =>
+          option
+            .setName("events")
+            .setDescription("Open the multi-select menu to configure log events")
+        )
     ),
   async execute(interaction: ChatInputCommandInteraction, locale: string) {
     const guildId = interaction.guildId!;
     const channel = interaction.options.getChannel("channel");
     const language = interaction.options.getString("language");
+    const showEvents = interaction.options.getBoolean("events");
 
     const responses: string[] = [];
 
@@ -84,12 +90,24 @@ export const logsCommand: Command = {
       responses.push(t("commands.logs.lang_set", locale, { lang: language === 'fr' ? 'Français' : 'English' }));
     }
 
-    // If any options were provided, just send the confirmation and don't show the menu
-    if (responses.length > 0) {
-      await interaction.reply({
-        content: responses.join("\n"),
-        flags: MessageFlags.Ephemeral
-      });
+    // Determine if we should show the menu:
+    // 1. Explicitly requested via 'events: true'
+    // 2. Nothing else was provided (default behavior)
+    const shouldShowMenu = showEvents === true || (!channel && !language && showEvents !== false);
+
+    if (!shouldShowMenu) {
+      if (responses.length > 0) {
+        await interaction.reply({
+          content: responses.join("\n"),
+          flags: MessageFlags.Ephemeral
+        });
+      } else {
+        // This case handles 'events: false' with no other options
+        await interaction.reply({
+          content: t("common.success", locale),
+          flags: MessageFlags.Ephemeral
+        });
+      }
       return;
     }
 
@@ -113,8 +131,12 @@ export const logsCommand: Command = {
 
     const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
+    const content = responses.length > 0 
+      ? `${responses.join("\n")}\n\n${t("commands.logs.select_events", locale)}`
+      : t("commands.logs.select_events", locale);
+
     const response = await interaction.reply({
-      content: t("commands.logs.select_events", locale),
+      content,
       components: [row],
       flags: MessageFlags.Ephemeral
     });
