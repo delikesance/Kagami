@@ -1,0 +1,142 @@
+{
+  "common": {
+    "error": "Error",
+    "warning": "Warning",
+    "success": "Success",
+    "no_reason": "No reason provided",
+    "bot_user_error": "You cannot perform this action on a bot."
+  },
+  "commands": {
+    "clear": {
+      "success": "Successfully deleted **{amount}** messages.",
+      "channel_error": "This command can only be used in text channels.",
+      "delete_error": "Failed to delete messages. They might be older than 14 days."
+    },
+    "warn": {
+      "success": "Successfully warned {user} for: **{reason}**",
+      "dm_title": "You have been warned",
+      "dm_description": "You received a warning in **{guild}**.\n\n**Reason:** {reason}"
+    },
+    "warnings": {
+      "title": "Warnings - {user}",
+      "no_warnings": "{user} has no warnings.",
+      "count": "{user} has **{count}** warning(s).",
+      "field_title": "ID: {id} | {date}",
+      "field_value": "**Reason:** {reason}\n**Moderator:** <@{moderator}>"
+    },
+    "delwarn": {
+      "not_found": "No warning found with ID **{id}** in this server.",
+      "success": "Successfully removed warning with ID **{id}**."
+    },
+    "ping": {
+      "wait": "Pinging...",
+      "title": "Pong ! 🏓",
+      "api": "API Latency",
+      "bot": "Bot Latency"
+    },
+    "avatar": {
+      "title": "Avatar of {user}"
+    },
+    "banner": {
+      "title": "Banner of {user}",
+      "no_banner": "{user} does not have a banner"
+    },
+    "logs": {
+      "channel_set": "Log channel has been set to {channel}.",
+      "lang_set": "Log language has been set to **{lang}**.",
+      "select_events": "Select the events you want to enable logging for:",
+      "updated": "Updated logging events. Currently enabled: {events}",
+      "none": "*None*"
+    },
+    "welcoming": {
+      "channel_set": "Successfully set welcoming channel to {channel}.",
+      "test": "Tested!"
+    },
+    "help": {
+      "placeholder": "Select a category",
+      "title": "Help Menu - {category}",
+      "description": "Select a category below to see the available commands.",
+      "categories": {
+        "Utility": "🛠️ Utility",
+        "Information": "ℹ️ Information",
+        "Moderation": "🛡️ Moderation",
+        "Configuration": "⚙️ Configuration"
+      },
+      "category_descriptions": {
+        "Utility": "Basic bot utility commands.",
+        "Information": "Get information about users or the server.",
+        "Moderation": "Tools for server moderation.",
+        "Configuration": "Configure bot features for your server."
+      }
+    },
+    "automod": {
+      "default_filter_enabled": "Default profanity filter has been **enabled**.",
+      "default_filter_disabled": "Default profanity filter has been **disabled**.",
+      "blacklist_added": "Added **{word}** to the server blacklist.",
+      "blacklist_already_exists": "**{word}** is already in the server blacklist.",
+      "blacklist_removed": "Removed **{word}** from the server blacklist.",
+      "blacklist_not_found": "**{word}** is not in the server blacklist.",
+      "blacklist_empty": "The server blacklist is empty.",
+      "blacklist_list_title": "Custom Blacklist",
+      "blacklist_list_desc": "The following words are blocked:\n{words}",
+      "dm_warning_title": "Message Deleted",
+      "dm_warning_desc": "Your message in **{guild}** was deleted because it contained prohibited words."
+    },
+    "verification": {
+      "setup_success": "Successfully initialized verification system!\n\n- Created **{role}** role.\n- Created **{channel}** channel.\n- Configured permissions for unverified/verified access.",
+      "verify_button_label": "Verify",
+      "verify_embed_title": "Server Verification",
+      "verify_embed_desc": "Welcome to **{guild}**! To gain access to the rest of the server, please click the button below and solve the CAPTCHA.",
+      "captcha_modal_title": "CAPTCHA Verification",
+      "captcha_modal_label": "Enter the characters from the image",
+      "captcha_error_title": "Verification Failed",
+      "captcha_error_desc": "The CAPTCHA you entered is incorrect. Please try again.",
+      "captcha_kick_desc": "You have been kicked for failing verification 3 times.",
+      "captcha_success_title": "Verification Successful",
+      "captcha_success_desc": "Welcome! You now have full access to the server.",
+      "role_name": "Verified",
+      "channel_name": "verification"
+    }
+  },
+  "logs": {
+    "automod_delete": "Auto-Mod: Message Deleted",
+    "automod_delete_desc": "**User:** {user} ({tag})\n**Channel:** {channel}\n**Reason:** Contained blocked word(s)\n**Content:**\n{content}",
+    "member_joined": "Member Joined",
+    "member_joined_desc": "{member} ({tag}) has joined the server.",
+    "member_left": "Member Left",
+    "member_left_desc": "{tag} has left the server.",
+    "message_deleted": "Message Deleted",
+    "message_deleted_desc": "**Author:** {author} ({tag})\n**Channel:** {channel}\n\n**Content:**\n{content}",
+    "message_updated": "Message Updated",
+    "message_updated_desc": "**Author:** {author} ({tag})\n**Channel:** {channel}\n[Jump to message]({url})",
+    "old_content": "Old Content",
+    "new_content": "New Content",
+    "no_content": "*No content*",
+    "nickname_updated": "Nickname Updated",
+    "nickname_updated_desc": "**Member:** {member} ({tag})\n**Old Nickname:** {old}\n**New Nickname:** {new}",
+    "roles_updated": "Member Roles Updated",
+    "roles_updated_desc": "**Member:** {member} ({tag})\n",
+    "added_roles": "**Added Roles:** {roles}\n",
+    "removed_roles": "**Removed Roles:** {roles}\n",
+    "role_created": "Role Created",
+    "role_created_desc": "**Role:** {role} ({id})",
+    "role_deleted": "Role Deleted",
+    "role_deleted_desc": "**Role:** {role} ({id})",
+    "role_updated_name": "Role Updated (Name)",
+    "role_updated_name_desc": "**Role:** {role} ({id})\n**Old Name:** {old}\n**New Name:** {new}",
+    "channel_created": "Channel Created",
+    "channel_created_desc": "**Channel:** {channel} ({id})\n**Type:** {type}",
+    "channel_deleted": "Channel Deleted",
+    "channel_deleted_desc": "**Channel:** {channel} ({id})\n**Type:** {type}",
+    "channel_updated_name": "Channel Updated (Name)",
+    "channel_updated_name_desc": "**Channel:** {channel} ({id})\n**Old Name:** {old}\n**New Name:** {new}",
+    "member_banned": "Member Banned",
+    "member_banned_desc": "**User:** {user} ({id})\n**Reason:** {reason}",
+    "member_unbanned": "Member Unbanned",
+    "member_unbanned_desc": "**User:** {user} ({id})",
+    "user_warned": "User Warned",
+    "user_warned_desc": "**User:** {user} ({tag})\n**Moderator:** {moderator} ({modtag})\n**Reason:** {reason}",
+    "warning_removed": "Warning Removed",
+    "warning_removed_desc": "**Moderator:** {moderator} ({tag})\n**Warning ID:** {id}\n**User:** <@{user}>\n**Original Reason:** {reason}"
+  }
+}

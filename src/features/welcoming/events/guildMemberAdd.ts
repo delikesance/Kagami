@@ -29,7 +29,7 @@ export async function sendWelcomeMessage(member: GuildMember, welcomeChannel: Se
   const imageBuffer = await generateWelcomeImage(member);
   const attachment = new AttachmentBuilder(imageBuffer, { name: "welcome.png" });
 
-  const randomBase = WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)];
+  const randomBase = WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)]!;
   const message = randomBase
     .replace("{member}", member.toString())
     .replace("{guild}", member.guild.name)

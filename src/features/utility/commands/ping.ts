@@ -1,15 +1,17 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { Command } from "../../../shared/types/command";
 import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
+import { t } from "../../../shared/lib/i18n";
 
 export const pingCommand: Command = {
+  category: "Utility",
   data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Replies with pong"),
 
-  async execute(interaction) {
+  async execute(interaction, locale) {
     const sent = await interaction.reply({
-      content: "Pinging...",
+      content: t("commands.ping.wait", locale),
       withResponse: true,
     })
 
@@ -19,10 +21,10 @@ export const pingCommand: Command = {
     await interaction.editReply({
       content: "",
       embeds: [new KagamiEmbedBuilder()
-        .setTitle("Pong ! 🏓")
+        .setTitle(t("commands.ping.title", locale))
         .addFields([
-          { name: "Api Latency", value: "> " + apiLatency + " ms", inline: true },
-          { name: "Bot Lantecy", value: "> " + botLatency + " ms", inline: true }
+          { name: t("commands.ping.api", locale), value: "> " + apiLatency + " ms", inline: true },
+          { name: t("commands.ping.bot", locale), value: "> " + botLatency + " ms", inline: true }
         ])]
     })
   }

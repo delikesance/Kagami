@@ -1,8 +1,10 @@
 import { MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../../../shared/types/command";
 import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
+import { t } from "../../../shared/lib/i18n";
 
 export const clearCommand: Command = {
+  category: "Moderation",
   data: new SlashCommandBuilder()
     .setName("clear")
     .setDescription("Deletes a specified number of messages")
@@ -15,14 +17,15 @@ export const clearCommand: Command = {
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
 
-  async execute(interaction) {
+  async execute(interaction, locale) {
     const amount = interaction.options.getInteger("amount", true);
 
     if (!interaction.channel || !("bulkDelete" in interaction.channel)) {
-      return interaction.reply({
-        embeds: [KagamiEmbedBuilder.error("This command can only be used in text channels.")],
+      await interaction.reply({
+        embeds: [KagamiEmbedBuilder.error(t("commands.clear.channel_error", locale))],
         flags: MessageFlags.Ephemeral
       });
+      return;
     }
 
     try {
@@ -30,15 +33,15 @@ export const clearCommand: Command = {
 
       await interaction.reply({
         embeds: [new KagamiEmbedBuilder()
-          .setTitle("Messages Cleared")
-          .setDescription(`Successfully deleted **${deleted.size}** messages.`)
+          .setTitle(t("common.success", locale))
+          .setDescription(t("commands.clear.success", locale, { amount: deleted.size }))
         ],
         flags: MessageFlags.Ephemeral
       });
     } catch (error) {
       console.error("[ERROR] Failed to clear messages:", error);
       await interaction.reply({
-        embeds: [KagamiEmbedBuilder.error("Failed to delete messages. They might be older than 14 days.")],
+        embeds: [KagamiEmbedBuilder.error(t("commands.clear.delete_error", locale))],
         flags: MessageFlags.Ephemeral
       });
     }

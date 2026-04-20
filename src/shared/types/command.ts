@@ -5,7 +5,10 @@ export type SlashCommandData =
   | SlashCommandOptionsOnlyBuilder
   | SlashCommandSubcommandsOnlyBuilder
 
+export type CommandCategory = "Utility" | "Information" | "Moderation" | "Configuration";
+
 export type Command = {
-  data: SlashCommandData
-  execute: (interaction: ChatInputCommandInteraction) => Promise<void>
+  category: CommandCategory;
+  data: SlashCommandData;
+  execute: (interaction: ChatInputCommandInteraction, locale: string) => Promise<void>;
 }

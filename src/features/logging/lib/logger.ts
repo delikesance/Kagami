@@ -1,15 +1,34 @@
-import { EmbedBuilder, type SendableChannels, type TextChannel } from "discord.js";
+import { type SendableChannels, type TextChannel, type Client, EmbedBuilder } from "discord.js";
 import db from "../../../shared/lib/db";
-import { embedConfig } from "../../../shared/lib/embed";
+import { embedConfig, KagamiEmbedBuilder } from "../../../shared/lib/embed";
+import { t } from "../../../shared/lib/i18n";
 
 export enum LogEvent {
   MESSAGE_DELETE = "messageDelete",
   MESSAGE_UPDATE = "messageUpdate",
   MEMBER_JOIN = "memberJoin",
   MEMBER_LEAVE = "memberLeave",
+  MEMBER_UPDATE = "memberUpdate",
+  ROLE_CREATE = "roleCreate",
+  ROLE_DELETE = "roleDelete",
+  ROLE_UPDATE = "roleUpdate",
+  CHANNEL_CREATE = "channelCreate",
+  CHANNEL_DELETE = "channelDelete",
+  CHANNEL_UPDATE = "channelUpdate",
+  GUILD_BAN_ADD = "guildBanAdd",
+  GUILD_BAN_REMOVE = "guildBanRemove",
+  MEMBER_WARN = "memberWarn",
+  MEMBER_UNWARN = "memberUnwarn",
+  AUTOMOD_DELETE = "automodDelete",
 }
 
-export async function sendLog(guildId: string, event: LogEvent, embed: EmbedBuilder, client: any) {
+export function getGuildLanguage(guildId: string): string {
+  const query = db.query("SELECT language FROM guild_configs WHERE guild_id = ?");
+  const config = query.get(guildId) as { language: string } | null;
+  return config?.language || "en";
+}
+
+export async function sendLog(guildId: string, event: LogEvent, embed: EmbedBuilder, client: Client) {
   const query = db.query("SELECT log_channel_id, log_events FROM guild_configs WHERE guild_id = ?");
   const config = query.get(guildId) as { log_channel_id: string | null; log_events: string } | null;
 
@@ -29,9 +48,8 @@ export async function sendLog(guildId: string, event: LogEvent, embed: EmbedBuil
 }
 
 export function createLogEmbed(title: string, description: string, color: number = embedConfig.colors.info) {
-  return new EmbedBuilder()
+  return new KagamiEmbedBuilder()
     .setTitle(title)
     .setDescription(description)
-    .setColor(color)
-    .setTimestamp();
+    .setColor(color);
 }

@@ -1,27 +1,32 @@
-import { SlashCommandBuilder } from "discord.js";
+import { MessageFlags, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../../../shared/types/command";
 import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
+import { t } from "../../../shared/lib/i18n";
 
 export const bannerCommand: Command = {
+  category: "Information",
   data: new SlashCommandBuilder()
     .setName("banner")
     .setDescription("Replies with target's banner")
     .addUserOption((option) => option.setName("target").setDescription("Target you want the banner from").setRequired(false)),
 
-  async execute(interaction) {
+  async execute(interaction, locale) {
     const target = interaction.options.getUser("target") || interaction.user
     const user = await target.fetch(true)
 
     const bannerURL = user.bannerURL({ size: 2048 })
 
     if (!bannerURL) {
-      interaction.reply({ content: `${target.username} does not have a banner`, flags: ["Ephemeral"] })
+      await interaction.reply({ 
+        content: t("commands.banner.no_banner", locale, { user: target.username }), 
+        flags: MessageFlags.Ephemeral 
+      })
       return
     }
 
-    interaction.reply({
+    await interaction.reply({
       embeds: [new KagamiEmbedBuilder()
-        .setTitle(`Banner of ${target.username}`)
+        .setTitle(t("commands.banner.title", locale, { user: target.username }))
         .setImage(bannerURL)
       ]
     })

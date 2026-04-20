@@ -8,12 +8,16 @@ export const embedConfig = {
 };
 import { EmbedBuilder } from "discord.js";
 export class KagamiEmbedBuilder extends EmbedBuilder {
-  constructor(level?: "warning" | "error") {
+  constructor(level?: "warning" | "error" | "info" | "success") {
     super()
-    if (!level) this.setColor("Blue")
-    if (level == "warning") this.setColor("Yellow")
-    if (level == "error") this.setColor("Red")
-    this.setFooter({ text: "Made with love by Delikesance" })
+    const colors = embedConfig.colors;
+    
+    if (level === "error") this.setColor(colors.error);
+    else if (level === "warning") this.setColor(colors.warning);
+    else if (level === "success") this.setColor(colors.success);
+    else this.setColor(colors.info);
+
+    this.setFooter({ text: "made with ❤️ by Delikesance" })
     this.setTimestamp()
   }
   static error(message: string) {
@@ -25,6 +29,11 @@ export class KagamiEmbedBuilder extends EmbedBuilder {
     return new this("warning")
       .setDescription(`> ${message}`)
       .setTitle("Warning")
+  }
+  static success(message: string) {
+    return new this("success")
+      .setDescription(`> ${message}`)
+      .setTitle("Success")
   }
 }
 export default KagamiEmbedBuilder;

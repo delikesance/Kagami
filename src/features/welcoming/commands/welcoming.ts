@@ -1,8 +1,10 @@
 import { ChannelType, GuildMember, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import type { Command } from "../../../shared/types/command";
 import db from "../../../shared/lib/db";
+import { t } from "../../../shared/lib/i18n";
 
 export const welcomingCommand: Command = {
+  category: "Configuration",
   data: new SlashCommandBuilder()
     .setName("welcoming")
     .setDescription("Configure the welcoming feature")
@@ -19,7 +21,7 @@ export const welcomingCommand: Command = {
     )
     .addSubcommand(input => input.setName("test").setDescription("test the welcoming feature")),
 
-  async execute(interaction) {
+  async execute(interaction, locale) {
     const subcommand = interaction.options.getSubcommand()
     if (!interaction.member || !(interaction.member instanceof GuildMember) || !interaction.guildId) return
 
@@ -31,15 +33,17 @@ export const welcomingCommand: Command = {
       ).run(interaction.guildId, channel.id, channel.id);
 
       await interaction.reply({
-        content: `Successfully set welcoming channel to ${channel}`,
+        content: t("commands.welcoming.channel_set", locale, { channel: channel.toString() }),
         flags: MessageFlags.Ephemeral
       });
     }
 
     if (subcommand === "test") {
       interaction.client.emit('guildMemberAdd', interaction.member)
-      interaction.reply("Tested!")
+      await interaction.reply({
+        content: t("commands.welcoming.test", locale),
+        flags: MessageFlags.Ephemeral
+      })
     }
   }
 }
-

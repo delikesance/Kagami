@@ -1,0 +1,142 @@
+{
+  "common": {
+    "error": "Erreur",
+    "warning": "Avertissement",
+    "success": "Succès",
+    "no_reason": "Aucune raison fournie",
+    "bot_user_error": "Vous ne pouvez pas effectuer cette action sur un bot."
+  },
+  "commands": {
+    "clear": {
+      "success": "**{amount}** messages ont été supprimés avec succès.",
+      "channel_error": "Cette commande ne peut être utilisée que dans des salons textuels.",
+      "delete_error": "Échec de la suppression des messages. Ils sont peut-être plus vieux que 14 jours."
+    },
+    "warn": {
+      "success": "{user} a été averti avec succès pour : **{reason}**",
+      "dm_title": "Vous avez reçu un avertissement",
+      "dm_description": "Vous avez reçu un avertissement sur **{guild}**.\n\n**Raison :** {reason}"
+    },
+    "warnings": {
+      "title": "Avertissements - {user}",
+      "no_warnings": "{user} n'a aucun avertissement.",
+      "count": "{user} a **{count}** avertissement(s).",
+      "field_title": "ID : {id} | {date}",
+      "field_value": "**Raison :** {reason}\n**Modérateur :** <@{moderator}>"
+    },
+    "delwarn": {
+      "not_found": "Aucun avertissement trouvé avec l'ID **{id}** sur ce serveur.",
+      "success": "L'avertissement avec l'ID **{id}** a été supprimé avec succès."
+    },
+    "ping": {
+      "wait": "Calcul de la latence...",
+      "title": "Pong ! 🏓",
+      "api": "Latence de l'API",
+      "bot": "Latence du Bot"
+    },
+    "avatar": {
+      "title": "Avatar de {user}"
+    },
+    "banner": {
+      "title": "Bannière de {user}",
+      "no_banner": "{user} n'a pas de bannière"
+    },
+    "logs": {
+      "channel_set": "Le salon de logs a été défini sur {channel}.",
+      "lang_set": "La langue des logs a été définie sur **{lang}**.",
+      "select_events": "Sélectionnez les événements pour lesquels vous souhaitez activer les logs :",
+      "updated": "Événements de logging mis à jour. Actuellement activés : {events}",
+      "none": "*Aucun*"
+    },
+    "welcoming": {
+      "channel_set": "Le salon d'accueil a été défini avec succès sur {channel}.",
+      "test": "Testé !"
+    },
+    "help": {
+      "placeholder": "Sélectionnez une catégorie",
+      "title": "Menu d'aide - {category}",
+      "description": "Sélectionnez une catégorie ci-dessous pour voir les commandes disponibles.",
+      "categories": {
+        "Utility": "🛠️ Utilité",
+        "Information": "ℹ️ Information",
+        "Moderation": "🛡️ Modération",
+        "Configuration": "⚙️ Configuration"
+      },
+      "category_descriptions": {
+        "Utility": "Commandes utilitaires de base.",
+        "Information": "Obtenez des informations sur les utilisateurs ou le serveur.",
+        "Moderation": "Outils de modération du serveur.",
+        "Configuration": "Configurez les fonctionnalités du bot pour votre serveur."
+      }
+    },
+    "automod": {
+      "default_filter_enabled": "Le filtre de mots vulgaires par défaut a été **activé**.",
+      "default_filter_disabled": "Le filtre de mots vulgaires par défaut a été **désactivé**.",
+      "blacklist_added": "**{word}** a été ajouté à la liste noire du serveur.",
+      "blacklist_already_exists": "**{word}** est déjà dans la liste noire du serveur.",
+      "blacklist_removed": "**{word}** a été retiré de la liste noire du serveur.",
+      "blacklist_not_found": "**{word}** n'est pas dans la liste noire du serveur.",
+      "blacklist_empty": "La liste noire du serveur est vide.",
+      "blacklist_list_title": "Liste noire personnalisée",
+      "blacklist_list_desc": "Les mots suivants sont bloqués :\n{words}",
+      "dm_warning_title": "Message Supprimé",
+      "dm_warning_desc": "Votre message dans **{guild}** a été supprimé car il contenait des mots interdits."
+    },
+    "verification": {
+      "setup_success": "Système de vérification initialisé avec succès !\n\n- Rôle **{role}** créé.\n- Salon **{channel}** créé.\n- Permissions configurées pour les accès vérifiés/non-vérifiés.",
+      "verify_button_label": "Se vérifier",
+      "verify_embed_title": "Vérification du Serveur",
+      "verify_embed_desc": "Bienvenue sur **{guild}** ! Pour accéder au reste du serveur, veuillez cliquer sur le bouton ci-dessous et résoudre le CAPTCHA.",
+      "captcha_modal_title": "Vérification CAPTCHA",
+      "captcha_modal_label": "Entrez les caractères de l'image",
+      "captcha_error_title": "Échec de la vérification",
+      "captcha_error_desc": "Le CAPTCHA entré est incorrect. Veuillez réessayer.",
+      "captcha_kick_desc": "Vous avez été expulsé après 3 tentatives de vérification infructueuses.",
+      "captcha_success_title": "Vérification Réussie",
+      "captcha_success_desc": "Bienvenue ! Vous avez maintenant un accès complet au serveur.",
+      "role_name": "Vérifié",
+      "channel_name": "verification"
+    }
+  },
+  "logs": {
+    "automod_delete": "Auto-Mod : Message Supprimé",
+    "automod_delete_desc": "**Utilisateur :** {user} ({tag})\n**Salon :** {channel}\n**Raison :** Contenait un ou plusieurs mots bloqués\n**Contenu :**\n{content}",
+    "member_joined": "Membre Rejoint",
+    "member_joined_desc": "{member} ({tag}) a rejoint le serveur.",
+    "member_left": "Membre Parti",
+    "member_left_desc": "{tag} a quitté le serveur.",
+    "message_deleted": "Message Supprimé",
+    "message_deleted_desc": "**Auteur :** {author} ({tag})\n**Salon :** {channel}\n\n**Contenu :**\n{content}",
+    "message_updated": "Message Modifié",
+    "message_updated_desc": "**Auteur :** {author} ({tag})\n**Salon :** {channel}\n[Aller au message]({url})",
+    "old_content": "Ancien Contenu",
+    "new_content": "Nouveau Contenu",
+    "no_content": "*Aucun contenu*",
+    "nickname_updated": "Pseudo Modifié",
+    "nickname_updated_desc": "**Membre :** {member} ({tag})\n**Ancien Pseudo :** {old}\n**Nouveau Pseudo :** {new}",
+    "roles_updated": "Rôles du Membre Mis à Jour",
+    "roles_updated_desc": "**Membre :** {member} ({tag})\n",
+    "added_roles": "**Rôles Ajoutés :** {roles}\n",
+    "removed_roles": "**Rôles Retirés :** {roles}\n",
+    "role_created": "Rôle Créé",
+    "role_created_desc": "**Rôle :** {role} ({id})",
+    "role_deleted": "Rôle Supprimé",
+    "role_deleted_desc": "**Rôle :** {role} ({id})",
+    "role_updated_name": "Rôle Modifié (Nom)",
+    "role_updated_name_desc": "**Rôle :** {role} ({id})\n**Ancien Nom :** {old}\n**Nouveau Nom :** {new}",
+    "channel_created": "Salon Créé",
+    "channel_created_desc": "**Salon :** {channel} ({id})\n**Type :** {type}",
+    "channel_deleted": "Salon Supprimé",
+    "channel_deleted_desc": "**Salon :** {channel} ({id})\n**Type :** {type}",
+    "channel_updated_name": "Salon Modifié (Nom)",
+    "channel_updated_name_desc": "**Salon :** {channel} ({id})\n**Ancien Nom :** {old}\n**Nouveau Nom :** {new}",
+    "member_banned": "Membre Banni",
+    "member_banned_desc": "**Utilisateur :** {user} ({id})\n**Raison :** {reason}",
+    "member_unbanned": "Membre Débanni",
+    "member_unbanned_desc": "**Utilisateur :** {user} ({id})",
+    "user_warned": "Utilisateur Averti",
+    "user_warned_desc": "**Utilisateur :** {user} ({tag})\n**Modérateur :** {moderator} ({modtag})\n**Raison :** {reason}",
+    "warning_removed": "Avertissement Supprimé",
+    "warning_removed_desc": "**Modérateur :** {moderator} ({tag})\n**ID Avertissement :** {id}\n**Utilisateur :** <@{user}>\n**Raison Originale :** {reason}"
+  }
+}
