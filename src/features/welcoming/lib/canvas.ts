@@ -5,14 +5,19 @@ export async function generateWelcomeImage(member: GuildMember) {
   const canvas = createCanvas(1024, 450);
   const ctx = canvas.getContext("2d");
 
-  // Sleek Dark Background
-  ctx.fillStyle = "#111111"; 
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  // 1. Gruvbox bg0 Background
+  ctx.fillStyle = "#282828";
+  ctx.fillRect(0, 0, 1024, 450);
 
-  // Big Avatar on the left
-  const avatarSize = 300;
-  const x = 75;
-  const y = (canvas.height - avatarSize) / 2;
+  // 2. Subtle Border (bg1)
+  ctx.strokeStyle = "#3c3836";
+  ctx.lineWidth = 20;
+  ctx.strokeRect(0, 0, 1024, 450);
+
+  // 3. Avatar with sharp circular crop
+  const avatarSize = 200;
+  const x = (canvas.width - avatarSize) / 2;
+  const y = 80;
 
   ctx.save();
   ctx.beginPath();
@@ -24,16 +29,25 @@ export async function generateWelcomeImage(member: GuildMember) {
   ctx.drawImage(avatar, x, y, avatarSize, avatarSize);
   ctx.restore();
 
-  // Clean Typography on the right
-  ctx.textAlign = "left";
-  ctx.fillStyle = "#FFFFFF";
-  
-  ctx.font = "bold 60px sans-serif";
-  ctx.fillText("WELCOME", 450, 210);
+  // Avatar Ring (Aqua)
+  ctx.strokeStyle = "#8ec07c";
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(x + avatarSize / 2, y + avatarSize / 2, (avatarSize / 2) + 5, 0, Math.PI * 2);
+  ctx.stroke();
 
-  ctx.font = "45px sans-serif";
-  ctx.fillStyle = "#AAAAAA";
-  ctx.fillText(member.user.username, 450, 270);
+  // 4. Typography
+  ctx.textAlign = "center";
+
+  // Welcome Text (fg / cream)
+  ctx.fillStyle = "#ebdbb2";
+  ctx.font = "bold 60px sans-serif";
+  ctx.fillText("BIENVENUE", canvas.width / 2, 340);
+
+  // Username (Aqua)
+  ctx.fillStyle = "#8ec07c";
+  ctx.font = "40px sans-serif";
+  ctx.fillText(member.user.username, canvas.width / 2, 395);
 
   return canvas.toBuffer("image/png");
 }

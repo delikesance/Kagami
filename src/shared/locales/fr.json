@@ -49,6 +49,13 @@
       "roles": "Rôles ({count})",
       "no_roles": "Aucun rôle"
     },
+    "levels": {
+      "rank_title": "Rang de {user}",
+      "level": "Niveau",
+      "xp": "XP",
+      "leaderboard_title": "Classement",
+      "leaderboard_subtitle": "Membres les plus actifs du serveur"
+    },
     "logs": {
       "channel_set": "Le salon de logs a été défini sur {channel}.",
       "lang_set": "La langue des logs a été définie sur **{lang}**.",

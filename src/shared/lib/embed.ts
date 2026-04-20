@@ -1,9 +1,9 @@
 export const embedConfig = {
   colors: {
-    info: 0x3498db,
-    success: 0x2ecc71,
-    warning: 0xf1c40f,
-    error: 0xe74c3c,
+    info: 0x8ec07c,    // Gruvbox Aqua
+    success: 0xb8bb26, // Gruvbox Green
+    warning: 0xfabd2f, // Gruvbox Yellow
+    error: 0xfb4934,   // Gruvbox Red
   },
 };
 import { EmbedBuilder } from "discord.js";
@@ -17,8 +17,7 @@ export class KagamiEmbedBuilder extends EmbedBuilder {
     else if (level === "success") this.setColor(colors.success);
     else this.setColor(colors.info);
 
-    this.setFooter({ text: "made with ❤️ by Delikesance" })
-    this.setTimestamp()
+    this.setFooter({ text: "ＫＡＧＡＭＩ" })
   }
   static error(message: string) {
     return new this("error")

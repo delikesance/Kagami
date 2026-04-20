@@ -1,5 +1,7 @@
 import { pingCommand } from "./features/utility/commands/ping";
 import { helpCommand } from "./features/utility/commands/help";
+import { rankCommand } from "./features/levels/commands/rank";
+import { leaderboardCommand } from "./features/levels/commands/leaderboard";
 import { avatarCommand } from "./features/information/commands/avatar";
 import { bannerCommand } from "./features/information/commands/banner";
 import { profileCommand } from "./features/information/commands/profile";
@@ -15,6 +17,8 @@ import { logsCommand } from "./features/logging/commands/logs";
 export const commands = [
   pingCommand,
   helpCommand,
+  rankCommand,
+  leaderboardCommand,
   avatarCommand,
   bannerCommand,
   profileCommand,

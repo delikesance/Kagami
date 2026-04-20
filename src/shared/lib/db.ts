@@ -68,6 +68,17 @@ db.query(`
   )
 `).run();
 
+db.query(`
+  CREATE TABLE IF NOT EXISTS user_levels (
+    guild_id TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    xp INTEGER DEFAULT 0,
+    level INTEGER DEFAULT 0,
+    last_msg_timestamp INTEGER DEFAULT 0,
+    PRIMARY KEY (guild_id, user_id)
+  )
+`).run();
+
 // Add attempts column if it doesn't exist
 try {
   db.query("ALTER TABLE pending_verifications ADD COLUMN attempts INTEGER DEFAULT 0").run();
