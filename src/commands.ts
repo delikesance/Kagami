@@ -14,10 +14,15 @@ import { verifyCommand } from "./features/verification/commands/verify";
 import { welcomingCommand } from "./features/welcoming/commands/welcoming";
 import { logsCommand } from "./features/logging/commands/logs";
 import { reflectionCommand } from "./features/reflections/commands/reflection";
+import { gachaCommand } from "./features/gacha/commands/gacha";
+import { featuresCommand } from "./features/utility/commands/features";
+import { adminCommand } from "./features/utility/commands/admin";
 
 export const commands = [
   pingCommand,
   helpCommand,
+  featuresCommand,
+  adminCommand,
   rankCommand,
   leaderboardCommand,
   avatarCommand,
@@ -32,4 +37,5 @@ export const commands = [
   welcomingCommand,
   logsCommand,
   reflectionCommand,
+  gachaCommand,
 ];

@@ -27,6 +27,8 @@ import { verificationInteractionEvent } from "./features/verification/events/ver
 import { verificationMessageEvent } from "./features/verification/events/verificationMessage";
 import { xpMessageEvent } from "./features/levels/events/xpEvents";
 import { reflectionVoiceEvent } from "./features/reflections/events/voiceStateUpdate";
+import { userRegistryEvent } from "./features/gacha/events/userRegistry";
+import { gachaMemberAddEvent } from "./features/gacha/events/memberAdd";
 
 export const events = [
   readyEvent,
@@ -50,4 +52,6 @@ export const events = [
   verificationMessageEvent,
   xpMessageEvent,
   reflectionVoiceEvent,
+  userRegistryEvent,
+  gachaMemberAddEvent,
 ];

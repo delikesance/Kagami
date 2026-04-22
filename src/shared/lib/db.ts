@@ -125,4 +125,67 @@ try {
   // Column likely already exists
 }
 
+// --- Gacha System Tables ---
+db.query(`
+  CREATE TABLE IF NOT EXISTS global_economy (
+    user_id TEXT PRIMARY KEY,
+    shards INTEGER DEFAULT 0,
+    last_daily INTEGER DEFAULT 0
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS gacha_likes (
+    liker_id TEXT NOT NULL,
+    liked_id TEXT NOT NULL,
+    PRIMARY KEY (liker_id, liked_id)
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS gacha_profiles (
+    user_id TEXT PRIMARY KEY,
+    likes INTEGER DEFAULT 0
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS gacha_inventory (
+    owner_id TEXT NOT NULL,
+    collected_user_id TEXT NOT NULL,
+    quantity INTEGER DEFAULT 1,
+    PRIMARY KEY (owner_id, collected_user_id)
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS global_users (
+    user_id TEXT PRIMARY KEY,
+    username TEXT NOT NULL
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS developers (
+    user_id TEXT PRIMARY KEY
+  )
+`).run();
+
+db.query(`
+  CREATE TABLE IF NOT EXISTS gacha_market (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    seller_id TEXT NOT NULL,
+    card_id TEXT NOT NULL,
+    price INTEGER NOT NULL,
+    quantity INTEGER DEFAULT 1,
+    created_at INTEGER NOT NULL
+  )
+`).run();
+
+// Seed initial developer
+const devs = db.query("SELECT COUNT(*) as count FROM developers").get() as { count: number };
+if (devs.count === 0) {
+  db.prepare("INSERT INTO developers (user_id) VALUES (?)").run("1494544143081279532");
+}
+
 export default db;

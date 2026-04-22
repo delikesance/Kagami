@@ -23,7 +23,10 @@ export class Bot extends Client {
     this.loadEvents();
     
     await this.login(env.DISCORD_TOKEN);
-    await deployCommands(commands);
+    if (this.user) {
+      const guildIds = this.guilds.cache.map(g => g.id);
+      await deployCommands(commands, this.user.id, guildIds);
+    }
   }
 
   private loadCommands() {

@@ -65,8 +65,11 @@ export const verifyCommand: Command = {
           permissionOverwrites: [
             {
               id: guild.id, // @everyone
-              allow: [PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages],
-              deny: [PermissionFlagsBits.ReadMessageHistory] // Optional: prevent seeing other attempts
+              allow: [
+                PermissionFlagsBits.ViewChannel, 
+                PermissionFlagsBits.SendMessages,
+                PermissionFlagsBits.ReadMessageHistory
+              ]
             },
             {
               id: verifiedRole.id,
