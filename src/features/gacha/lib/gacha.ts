@@ -343,3 +343,44 @@ export function getInventory(ownerId: string) {
     ORDER BY p.likes DESC, i.quantity DESC
   `).all(ownerId) as any[];
 }
+
+export interface DomainTier {
+  level: number;
+  name: string;
+  emoji: string;
+  xpMultiplier: number;
+  shardChance: number;
+}
+
+export function getDomainTierByLevel(level: number): DomainTier {
+  switch (level) {
+    case 5: return { level: 5, name: "Prismatic", emoji: "✨", xpMultiplier: 1.5, shardChance: 0.1 };
+    case 4: return { level: 4, name: "Diamond", emoji: "💎", xpMultiplier: 1.3, shardChance: 0.05 };
+    case 3: return { level: 3, name: "Gold", emoji: "🥇", xpMultiplier: 1.2, shardChance: 0.02 };
+    case 2: return { level: 2, name: "Silver", emoji: "🥈", xpMultiplier: 1.1, shardChance: 0 };
+    default: return { level: 1, name: "Normal", emoji: "🔊", xpMultiplier: 1.0, shardChance: 0 };
+  }
+}
+
+export function getCollectionScore(userId: string): number {
+  const inventory = getInventory(userId);
+  let score = 0;
+  for (const card of inventory) {
+    const rarity = getRarity(card.likes);
+    let points = 1; // COMMON
+    if (rarity === Rarity.RARE) points = 5;
+    else if (rarity === Rarity.EPIC) points = 20;
+    else if (rarity === Rarity.LEGENDARY) points = 100;
+    score += points * card.quantity;
+  }
+  return score;
+}
+
+export function getDomainTier(score: number): DomainTier {
+  if (score >= 1000) return getDomainTierByLevel(5);
+  if (score >= 500) return getDomainTierByLevel(4);
+  if (score >= 200) return getDomainTierByLevel(3);
+  if (score >= 50) return getDomainTierByLevel(2);
+  return getDomainTierByLevel(1);
+}
+

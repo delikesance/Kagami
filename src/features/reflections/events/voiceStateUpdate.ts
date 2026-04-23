@@ -1,6 +1,7 @@
 import { Events, type VoiceState, ChannelType } from "discord.js";
 import type { Event } from "../../../shared/types/event";
 import db from "../../../shared/lib/db";
+import { getCollectionScore, getDomainTier } from "../../gacha/lib/gacha";
 
 export const reflectionVoiceEvent: Event<Events.VoiceStateUpdate> = {
   name: Events.VoiceStateUpdate,
@@ -21,8 +22,12 @@ export const reflectionVoiceEvent: Event<Events.VoiceStateUpdate> = {
       const parentId = config.category_id || newState.channel?.parentId;
 
       try {
+        const score = getCollectionScore(member.id);
+        const tier = getDomainTier(score);
+        const channelName = `${tier.emoji} Reflet de ${member.displayName}`;
+
         const newChannel = await newState.guild.channels.create({
-          name: `Reflet de ${member.displayName}`,
+          name: channelName,
           type: ChannelType.GuildVoice,
           parent: parentId || undefined,
           permissionOverwrites: [
@@ -37,11 +42,11 @@ export const reflectionVoiceEvent: Event<Events.VoiceStateUpdate> = {
           ],
         });
 
-        console.log(`[REFLECTION] Created channel ${newChannel.name}. Moving member...`);
+        console.log(`[REFLECTION] Created channel ${newChannel.name} (Tier ${tier.level}). Moving member...`);
         await member.voice.setChannel(newChannel);
 
-        db.query("INSERT INTO active_reflections (channel_id, guild_id, owner_id) VALUES (?, ?, ?)")
-          .run(newChannel.id, guildId, member.id);
+        db.query("INSERT INTO active_reflections (channel_id, guild_id, owner_id, tier_level) VALUES (?, ?, ?, ?)")
+          .run(newChannel.id, guildId, member.id, tier.level);
       } catch (error) {
         console.error("[REFLECTION] Failed to create or move member:", error);
       }

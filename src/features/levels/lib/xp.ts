@@ -9,7 +9,7 @@ export const getXPToNextLevel = (level: number) => {
   return 5 * Math.pow(level, 2) + 50 * level + 100;
 };
 
-export async function addXP(guildId: string, userId: string): Promise<{ leveledUp: boolean; newLevel: number } | null> {
+export async function addXP(guildId: string, userId: string, multiplier: number = 1.0): Promise<{ leveledUp: boolean; newLevel: number } | null> {
   const now = Date.now();
   const cooldown = 60 * 1000; // 1 minute cooldown
 
@@ -20,7 +20,9 @@ export async function addXP(guildId: string, userId: string): Promise<{ leveledU
     return null;
   }
 
-  const xpToAdd = Math.floor(Math.random() * 11) + 15; // 15-25 XP
+  let xpToAdd = Math.floor(Math.random() * 11) + 15; // 15-25 XP
+  xpToAdd = Math.floor(xpToAdd * multiplier);
+  
   let newXP = (row?.xp || 0) + xpToAdd;
   let newLevel = row?.level || 0;
   let leveledUp = false;

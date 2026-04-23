@@ -1,0 +1,28 @@
+Configuring shell
+Configuring shell in 1.60s
+Loading tasks
+Loading tasks in 6.68ms
+Running tasks     devenv:enterShell
+
+Running tasks
+Running           devenv:files:cleanup
+Succeeded         devenv:files:cleanup (75.83ms)
+Running           devenv:enterShell
+Succeeded         devenv:enterShell (45.31ms)
+Running           devenv:enterTest
+No command        devenv:enterTest
+Running tasks in 123ms
+1 Skipped, 2 Succeeded
+Configuring shell
+Configuring shell in 1.36ms
+💡 The dotenv file '.env' was not found.
+
+   To create this file, you can copy the example file:
+
+   $ cp .env.example .env
+
+welcome to Kagami development environment!
+bun install v1.3.11 (af24e281)
+
+Checked 32 installs across 42 packages (no changes) [2.00ms]
+ok

@@ -91,13 +91,18 @@ db.query(`
   CREATE TABLE IF NOT EXISTS active_reflections (
     channel_id TEXT PRIMARY KEY,
     guild_id TEXT NOT NULL,
-    owner_id TEXT NOT NULL
+    owner_id TEXT NOT NULL,
+    tier_level INTEGER DEFAULT 1
   )
 `).run();
 
 // Add attempts column if it doesn't exist
 try {
   db.query("ALTER TABLE pending_verifications ADD COLUMN attempts INTEGER DEFAULT 0").run();
+} catch (e) {}
+
+try {
+  db.query("ALTER TABLE active_reflections ADD COLUMN tier_level INTEGER DEFAULT 1").run();
 } catch (e) {}
 
 // Add missing columns if table already exists

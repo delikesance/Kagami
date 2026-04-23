@@ -2,14 +2,35 @@ import { Events, type Message } from "discord.js";
 import type { Event } from "../../../shared/types/event";
 import { addXP } from "../lib/xp";
 import { KagamiEmbedBuilder } from "../../../shared/lib/embed";
-import { addShards } from "../../gacha/lib/gacha";
+import { addShards, getDomainTierByLevel } from "../../gacha/lib/gacha";
+import db from "../../../shared/lib/db";
 
 export const xpMessageEvent: Event<Events.MessageCreate> = {
   name: Events.MessageCreate,
   async execute(message: Message) {
     if (message.author.bot || !message.guild) return;
 
-    const result = await addXP(message.guild.id, message.author.id);
+    let multiplier = 1.0;
+    
+    // Check if message is inside a voice channel (Domain)
+    if (message.channel.isVoiceBased()) {
+      const activeReflection = db.query("SELECT tier_level FROM active_reflections WHERE channel_id = ?")
+        .get(message.channel.id) as { tier_level: number } | undefined;
+      
+      if (activeReflection) {
+        const tier = getDomainTierByLevel(activeReflection.tier_level);
+        multiplier = tier.xpMultiplier;
+        
+        // Random shard drop chance for being active in a domain
+        if (tier.shardChance > 0 && Math.random() < tier.shardChance) {
+          const shardsFound = Math.floor(Math.random() * 11) + 10; // 10-20 shards
+          addShards(message.author.id, shardsFound);
+          await message.channel.send(`✨ **${message.author.username}** a trouvé **${shardsFound} shards** par terre dans ce domaine !`);
+        }
+      }
+    }
+
+    const result = await addXP(message.guild.id, message.author.id, multiplier);
 
     if (result?.leveledUp) {
       const shardReward = result.newLevel * 50;

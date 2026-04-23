@@ -1,9 +1,24 @@
 { pkgs, lib, config, inputs, ... }:
 
 {
+  cachix.enable = false;
+
   packages = [ 
     pkgs.bun
-    pkgs.bws
+    (pkgs.stdenv.mkDerivation {
+      name = "bws-1.0.0";
+      src = pkgs.fetchurl {
+        url = "https://github.com/bitwarden/sdk-sm/releases/download/bws-v1.0.0/bws-aarch64-apple-darwin-1.0.0.zip";
+        sha256 = "5dd716878e5627220aa254cbe4e41e978f226f72d9117fc195046709db363e20";
+      };
+      nativeBuildInputs = [ pkgs.unzip ];
+      unpackPhase = "unzip $src";
+      installPhase = ''
+        mkdir -p $out/bin
+        cp bws $out/bin/
+        chmod +x $out/bin/bws
+      '';
+    })
     pkgs.jq
     pkgs.gnumake
     pkgs.devenv

@@ -1,0 +1,7 @@
+error: unexpected argument '--show-trace' found
+
+  tip: to pass '--show-trace' as a value, use '-- --show-trace'
+
+Usage: devenv shell [OPTIONS] [CMD] [ARGS]...
+
+For more information, try '--help'.

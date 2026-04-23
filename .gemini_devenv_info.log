@@ -1,0 +1,40 @@
+Inputs:
+├───mk-shell-bin: github:rrbutani/nix-mk-shell-bin/ff5d8bd4d68a347be5042e2f16caee391cd75887?narHash=sha256-/uEkr1UkJrh11vD02aqufCxtbF5YnhRTIKlx5kyvf%2BI%3D
+├───nix2container: github:nlewo/nix2container/76be9608a7f4d6c985d28b0e7be903ae2547df3e?narHash=sha256-2lguQpLPQaxpQCJjXhmEEAfabwsAhkP29Z7fgLzHARA%3D
+└───nixpkgs: github:NixOS/nixpkgs/b86751bc4085f48661017fa226dee99fab6c651b?narHash=sha256-a8BYi3mzoJ/AcJP8UldOx8emoPRLeWqALZWu4ZvjPXw%3D
+
+# env
+- DEVENV_DOTFILE: /Users/clauinangelo/Code/Kagami/.devenv
+- DEVENV_PROFILE: /nix/store/9rjx4421jvnfvrqrdid1hdl84ryjgdin-devenv-profile
+- DEVENV_ROOT: /Users/clauinangelo/Code/Kagami
+- DEVENV_RUNTIME: /tmp/devenv-d4a8303
+- DEVENV_STATE: /Users/clauinangelo/Code/Kagami/.devenv/state
+- DEVENV_TASKS: 
+- DEVENV_TASK_FILE: /nix/store/r6b3ixwkk5hmpycriivlhssma5hrarbm-tasks.json
+
+# packages
+- bash-interactive-5.3p9
+- bun-1.3.11
+- bws-1.0.0
+- jq-1.8.1
+- gnumake-4.4.1
+- devenv-2.0.6
+- pkg-config-wrapper-0.29.2
+- apple-sdk-14.4
+
+# processes
+- bot: exec /nix/store/1k9d722xcbnbavqfkwds8lpmf2kbnn35-bot
+- start: exec /nix/store/zc9x220gnplb2i5rskmq8352q5ypl2xh-start
+
+# scripts
+- hello /nix/store/j31lj7jxr4sdj7gbr2m4698da27ysbj2-hello
+- start /nix/store/j0s59hb0vrm73w8w3h1vz0260q8cy3ks-start
+
+# tasks
+- devenv:container:copy:  (/nix/store/7jhi7gc2hrpfqhk047pcmcvqac7mbv51-devenv-container-copy)
+- devenv:enterShell: Runs when entering the shell (/nix/store/pc56sna7lf0agwnvc9v49asxjinm1pf0-devenv-enterShell)
+- devenv:enterTest: Runs when entering the test environment (no command)
+- devenv:files:  (no command)
+- devenv:files:cleanup: Cleanup orphaned files (/nix/store/85axn6vyazyfq3141dfvfqpjv666jykm-devenv-files-cleanup)
+- devenv:processes:bot:  (/nix/store/id2jys17ys26kwk5as8r59r4inhdiph3-devenv-processes-bot)
+- devenv:processes:start:  (/nix/store/1rhf0804h5gb4i28sd20bc4hbpxqnrdd-devenv-processes-start)
