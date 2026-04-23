@@ -17,12 +17,14 @@ import { reflectionCommand } from "./features/reflections/commands/reflection";
 import { gachaCommand } from "./features/gacha/commands/gacha";
 import { featuresCommand } from "./features/utility/commands/features";
 import { adminCommand } from "./features/utility/commands/admin";
+import { devlogCommand } from "./features/utility/commands/devlog";
 
 export const commands = [
   pingCommand,
   helpCommand,
   featuresCommand,
   adminCommand,
+  devlogCommand,
   rankCommand,
   leaderboardCommand,
   avatarCommand,

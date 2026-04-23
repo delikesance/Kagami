@@ -187,6 +187,13 @@ db.query(`
   )
 `).run();
 
+db.query(`
+  CREATE TABLE IF NOT EXISTS published_devlogs (
+    filename TEXT PRIMARY KEY,
+    published_at INTEGER NOT NULL
+  )
+`).run();
+
 // Seed initial developer
 const devs = db.query("SELECT COUNT(*) as count FROM developers").get() as { count: number };
 if (devs.count === 0) {
